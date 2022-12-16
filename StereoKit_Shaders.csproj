@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>StereoKit_Shaders</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>disable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>StereoKit_Shaders</ApplicationTitle>
+		
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.StereoKit_Shaders</ApplicationId>
+		<ApplicationIdGuid>48BA791C-0BB4-45AA-9F16-5D0862F49983</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+		<SKOpenXRLoader>Oculus</SKOpenXRLoader>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#000000" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" /> 
+
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\marble_bust.glb" />
+	  <None Remove="Assets\shaderFunctions.hlsli" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\marble_bust.glb">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="StereoKit_Shaders.sln" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StereoKit" Version="0.3.7-preview.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Include="Assets\shaderFunctions.hlsli">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </SKShader>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Update="Assets\testShader.hlsl">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </SKShader>
+	</ItemGroup>
+
+</Project>
