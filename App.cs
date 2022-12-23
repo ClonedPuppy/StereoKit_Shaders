@@ -70,7 +70,7 @@ public class App
         }
         else
         {
-           //rotate -= 0.5f;
+           rotate -= 0.5f;
         }
     }
 }

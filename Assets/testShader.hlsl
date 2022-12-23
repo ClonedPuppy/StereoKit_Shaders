@@ -78,7 +78,7 @@ psIn vs(vsIn input, uint id : SV_InstanceID) {
 	o.color = input.color * sk_inst[id].color * color;
 	o.irradiance = Lighting(o.normal);
 	
-	o.diffuseColor = DiffuseLambert(input.norm, float3(1, 1, 0), 0.5, float3(0.25, 0.43, 0.66), 1);
+	o.diffuseColor = lambert(input.norm, float3(1, 1, 0), 0.5, float3(0.25, 0.43, 0.66), 1);
 	
 	return o;
 }
