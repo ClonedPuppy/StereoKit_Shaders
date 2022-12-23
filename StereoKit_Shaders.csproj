@@ -37,12 +37,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\debugShader.hlsl" />
 	  <None Remove="Assets\marble_bust.glb" />
+	  <None Remove="Assets\metal_grid_26_17_normal.jpg" />
+	  <None Remove="Assets\normalMap.png" />
+	  <None Remove="Assets\normalTest.hlsl" />
+	  <None Remove="Assets\pbrShader.hlsl" />
 	  <None Remove="Assets\shaderFunctions.hlsli" />
+	  <None Remove="Assets\stereokit_pbr.hlsli" />
+	  <None Remove="Assets\sunrise.hdr" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="Assets\marble_bust.glb">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\metal_grid_26_17_normal.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\normalMap.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\sunrise.hdr">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
@@ -56,6 +72,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <SKShader Include="Assets\stereokit_pbr.hlsli">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </SKShader>
 	  <SKShader Include="Assets\shaderFunctions.hlsli">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </SKShader>
@@ -65,6 +84,18 @@
 	  <SKShader Update="Assets\testShader.hlsl">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </SKShader>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\normalTest.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\pbrShader.hlsl" />
 	</ItemGroup>
 
 </Project>

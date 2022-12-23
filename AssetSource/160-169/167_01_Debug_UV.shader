@@ -37,7 +37,7 @@ Shader "Custom/160-169/167_01_Debug_UV"
                 {
                     c.b = 0.5;
                 }
-                return c;
+                return float4(c.rgb, 1);
             }
             ENDCG
         }

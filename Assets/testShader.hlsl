@@ -50,12 +50,6 @@ struct psIn {
 	uint   view_id : SV_RenderTargetArrayIndex;
 };
 
-float3 DiffuseLambert(float3 normal, float3 lightDir, half atten, float3 lightColor, float diffuseFactor)
-{
-	float diff = saturate(dot(normal, lightDir));
-	return lightColor * (diff * atten) * diffuseFactor;
-}
-
 psIn vs(vsIn input, uint id : SV_InstanceID) {
 	psIn o;
 	o.view_id = id % sk_view_count;
@@ -75,7 +69,7 @@ psIn vs(vsIn input, uint id : SV_InstanceID) {
 	
 	// Extrude the vertices 
 	//o.world.xyz += o.normal * Extrusion * abs(_SinTime().w);
-	o.world += sin(o.normal + (_Time().y * 0.01) * 0.01) * (0.1 * o.normal);
+	//o.world += sin(o.normal + (_Time().y * 0.01) * 0.01) * (0.1 * o.normal);
 
 	// (Clip space), Calculate the model space coordinates of the mesh, and projection space for the fragment shader 
 	o.pos = mul(float4(o.world, 1), sk_viewproj[o.view_id]);
@@ -142,16 +136,17 @@ float4 ps(psIn input) : SV_TARGET{
 	float3 diffuse = albedo.rgb * input.irradiance * ao;
 	float3 color = (kD * diffuse + specular * ao);
 
-	//float fogAmount = fog(input.world, input.camera, float2(5, 55));
+	//float result = fog(input.world, input.camera, float2(5, 55));
 
-	//float3 emission = rimShade(float3(0,0.3,0.3), 10, input.view_dir, input.normal);
+	float4 result = rimShade(float3(0, 0.3, 0.3), 10, input.view_dir, input.normal);
 
-	//float3 dotResult = dotProduct(input.view_dir, input.normal);
-
-	float3 holoColor = { 0.25, 0.43, 0.66 };
+	//float4 result = dotProduct(input.view_dir, input.normal);
 	
-	float4 holo = holographic(holoColor, 0.5, input.view_dir, input.normal);
-	
-	return float4(input.diffuseColor, 1);
+	//float4 result = gradientPosterized(input.uv, float3(0.15, 0.43, 0.66), float3(0.83, 0.25, 0.66), 0.75, 0.25, 5);
 
+	//float3 holoColor = { 0.25, 0.43, 0.66 };
+	
+	//float4 result = holographic(holoColor, 0.5, input.view_dir, input.normal);
+	
+	return result;
 }
