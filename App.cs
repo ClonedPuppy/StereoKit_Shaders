@@ -27,9 +27,10 @@ public class App
     public void Init()
     {
         // Create assets used by the app
-        bust = Model.FromFile("marble_bust.glb");
-        box = Model.FromMesh(Mesh.GenerateCube(Vec3.One * 0.1f), new Material(Shader.FromFile("debugShader.hlsl")));
-
+        bust = Model.FromFile("Room.glb", Shader.FromFile("pbrShader.hlsl"));
+        box = Model.FromMesh(Mesh.GenerateCube(Vec3.One * 0.1f), new Material(Shader.FromFile("pbrShader.hlsl")));
+        box.Visuals[0].Material.SetTexture("normal", Tex.FromFile("metal_grid_26_17_normal.jpg"));
+        
         floorMaterial = new Material(Shader.FromFile("floor.hlsl"));
         floorMaterial.Transparency = Transparency.Blend;
 
@@ -40,16 +41,16 @@ public class App
         //bust.Visuals[0].Material.Transparency = Transparency.Blend;
         //bust.Visuals[0].Material.FaceCull = Cull.Front;
 
-        fillMaterial = new Material(Shader.FromFile("pbrShader.hlsl"));
-        bust.Visuals[0].Material = fillMaterial;
-        bust.Visuals[0].Material.SetTexture("normal", Tex.FromFile("metal_grid_26_17_normal.jpg"));
+        //fillMaterial = new Material(Shader.FromFile("pbrShader.hlsl"));
+        //bust.Visuals[0].Material = fillMaterial;
+        //bust.Visuals[0].Material.SetTexture("normal", Tex.FromFile("normalMap.png"));
 
         bustPose = new Pose(0, -0.25f, -0.4f, Quat.FromAngles(0, rotate, 0));
         boxPose = new Pose(0.2f, -0.25f, -0.4f, Quat.FromAngles(0, 0, 0));
 
-        Renderer.SkyTex = Tex.FromCubemapEquirectangular("sunrise.hdr", out SphericalHarmonics lighting);
-        Renderer.SkyLight = lighting;
-        Renderer.EnableSky = false;
+        //Renderer.SkyTex = Tex.FromCubemapEquirectangular("sunrise.hdr", out SphericalHarmonics lighting);
+        //Renderer.SkyLight = lighting;
+        //Renderer.EnableSky = false;
     }
 
     public void Step()
@@ -57,9 +58,9 @@ public class App
         if (SK.System.displayType == Display.Opaque)
             Mesh.Cube.Draw(floorMaterial, floorTransform);
 
-        //UI.Handle("Cube", ref bustPose, bust.Bounds);
+        UI.Handle("Cube", ref bustPose, bust.Bounds);
         bust.Draw(bustPose.ToMatrix());
-        box.Draw(boxPose.ToMatrix());
+        //box.Draw(boxPose.ToMatrix());
 
         bust.Visuals[0].LocalTransform = Matrix.R(Quat.FromAngles(0, rotate, 0));
 
@@ -70,7 +71,7 @@ public class App
         }
         else
         {
-           rotate -= 0.5f;
+           //rotate -= 0.5f;
         }
     }
 }

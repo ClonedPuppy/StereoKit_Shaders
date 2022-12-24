@@ -2,10 +2,10 @@
 #include <stereokit_pbr.hlsli>
 
 //--name = pbrShader
-//--color:color           = 0,0,0,1
+//--color:color           = 1,1,1,1
 //--emission_factor:color = 0,0,0,0
 //--metallic              = 0
-//--roughness             = 0
+//--roughness             = 1
 //--tex_scale             = 1
 float4 color;
 float4 emission_factor;
@@ -65,25 +65,20 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	return o;
 }
 
-// For creating normals without a precalculated tangent
-float3x3 CotangentFrame(float3 N, float3 p, float2 uv)
+float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
 {
-	// get edge vectors of the pixel triangle
-	float3 dp1 = ddx(p);
-	float3 dp2 = ddy(p);
-	float2 duv1 = ddx(uv);
-	float2 duv2 = ddy(uv);
+    // calculate the binormal using the cross product
+	float3 B = cross(N, T);
 
-	// solve the linear system
-	float3 dp2perp = cross(dp2, N);
-	float3 dp1perp = cross(N, dp1);
-	float3 T = dp2perp * duv1.x + dp1perp * duv2.x;
-	float3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+    // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
+	N = normalize(N + strength * B);
 
-	// construct a scale-invariant frame 
-	float invmax = rsqrt(max(dot(T, T), dot(B, B)));
-	return float3x3(T * invmax, B * invmax, N);
+    // construct the matrix
+	float3x3 TBN = float3x3(T, B, N);
+	return TBN;
 }
+
+
 
 float4 ps(psIn input) : SV_TARGET
 {
@@ -96,7 +91,7 @@ float4 ps(psIn input) : SV_TARGET
 	// Normalize model normals
 	float3 p_norm = normalize(input.normal);
 	// Transform surface normals from tangent space to world space, and normalize
-	tex_norm = mul(tex_norm, CotangentFrame(p_norm, input.view_dir, input.uv));
+	tex_norm = mul(tex_norm, CotangentFrame(p_norm, input.view_dir, input.uv, tex_norm, 0));
 	p_norm = normalize(tex_norm);
 	
 	float ao = occlusion.Sample(occlusion_s, input.uv).r; // occlusion is sometimes part of the metal tex, uses r channel
@@ -104,7 +99,8 @@ float4 ps(psIn input) : SV_TARGET
 	float metallic_final = metal_rough.y * metallic;
 	float rough_final = metal_rough.x * roughness;
 
-	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, tex_norm);
+	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, p_norm);
+	//float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, input.normal);
 	color.rgb += emissive;
-	return color;
+	return float4(color.rgb, 1);
 }

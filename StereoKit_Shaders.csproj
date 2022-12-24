@@ -43,6 +43,7 @@
 	  <None Remove="Assets\normalMap.png" />
 	  <None Remove="Assets\normalTest.hlsl" />
 	  <None Remove="Assets\pbrShader.hlsl" />
+	  <None Remove="Assets\Room.glb" />
 	  <None Remove="Assets\shaderFunctions.hlsli" />
 	  <None Remove="Assets\stereokit_pbr.hlsli" />
 	  <None Remove="Assets\sunrise.hdr" />
@@ -56,6 +57,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\normalMap.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Room.glb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\sunrise.hdr">
@@ -97,5 +101,7 @@
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Assets\pbrShader.hlsl" />
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionStereoKit_ShadersHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
