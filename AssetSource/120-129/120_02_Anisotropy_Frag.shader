@@ -111,6 +111,34 @@
                 float3 worldBinormal : TEXCOORD5;
             };
             
+
+            //
+            float3 UnityObjectToWorldNormal(float3 normal)
+            {
+                float3x3 objectToWorld = mul(unity_ObjectToWorld, float3x3(mul(unity_WorldToObject, float4(normal, 0)).xyz, 1));
+                return normalize(objectToWorld[2]);
+            }
+
+            float3 UnityObjectToWorldDir(float3 dir)
+            {
+                float3x3 objectToWorld = mul(unity_ObjectToWorld, float3x3(mul(unity_WorldToObject, float4(dir, 0)).xyz, 1));
+                return objectToWorld[0];
+            }
+
+            float4x4 unity_WorldTransform;
+            float3 unity_WorldTransformParams; // holds properties of the object's world transform
+
+            void GetWorldTransformParams(float4x4 worldTransform)
+            {
+                unity_WorldTransform = worldTransform;
+                unity_WorldTransformParams.x = length(worldTransform[0]); // scale along x-axis
+                unity_WorldTransformParams.y = length(worldTransform[1]); // scale along y-axis
+                unity_WorldTransformParams.z = length(worldTransform[2]); // scale along z-axis
+                unity_WorldTransformParams.w = sign(dot(worldTransform[0], cross(worldTransform[1], worldTransform[2]))); // handedness of the transform
+            }
+            //
+
+
             vertexOuput vert(vertexInput v)
             {
                 vertexOuput o;
@@ -120,6 +148,7 @@
                 
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
+
                 o.worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
                 fixed tangentSign = v.tangent.w * unity_WorldTransformParams.w;
                 o.worldBinormal = cross(o.worldNormal, o.worldTangent) * tangentSign;

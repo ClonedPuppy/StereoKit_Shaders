@@ -37,6 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\anisotropy.hlsl" />
 	  <None Remove="Assets\debugShader.hlsl" />
 	  <None Remove="Assets\marble_bust.glb" />
 	  <None Remove="Assets\metal_grid_26_17_normal.jpg" />
@@ -103,5 +104,9 @@
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionStereoKit_ShadersHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\anisotropy.hlsl" />
+	</ItemGroup>
 
 </Project>

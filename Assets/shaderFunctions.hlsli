@@ -1,4 +1,4 @@
-#include "stereokit.hlsli"
+#include <stereokit.hlsli>
 
 
 // Useful functions borrowed from Unity and others
