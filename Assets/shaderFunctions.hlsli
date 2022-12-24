@@ -26,6 +26,20 @@ float Posterize(float numberOfBands, float target)
 	return round(target * numberOfBands) / numberOfBands;
 }
 
+// This function calculates the world space tangent vector for a given vertex in object space
+float3 CalculateWorldTangent(float2 uv, float3 vertexPos, float3 vertexNormal)
+{
+	// Calculate the partial derivative of the texture coordinates with respect to the screen coordinates
+	float2 duv = ddx(uv);
+	float2 dvv = ddy(uv);
+
+	// Calculate the tangent vector using the partial derivatives, vertex position, and normal vector
+	float3 T = (duv.x * vertexPos - duv.y * normalize(vertexNormal)) / (duv.x * dvv.y - duv.y * dvv.x);
+
+	return normalize(T);
+}
+
+
 
 // Vertex shaders
 

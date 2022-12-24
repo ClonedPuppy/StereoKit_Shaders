@@ -40,6 +40,7 @@
 	  <None Remove="Assets\anisotropy.hlsl" />
 	  <None Remove="Assets\debugShader.hlsl" />
 	  <None Remove="Assets\marble_bust.glb" />
+	  <None Remove="Assets\marble_bust_tangents.glb" />
 	  <None Remove="Assets\metal_grid_26_17_normal.jpg" />
 	  <None Remove="Assets\normalMap.png" />
 	  <None Remove="Assets\normalTest.hlsl" />
@@ -52,6 +53,9 @@
 
 	<ItemGroup>
 	  <Content Include="Assets\marble_bust.glb">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\marble_bust_tangents.glb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\metal_grid_26_17_normal.jpg">

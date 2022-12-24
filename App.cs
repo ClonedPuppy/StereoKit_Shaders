@@ -27,7 +27,7 @@ public class App
     public void Init()
     {
         // Create assets used by the app
-        bust = Model.FromFile("Room.glb", Shader.FromFile("pbrShader.hlsl"));
+        bust = Model.FromFile("marble_bust.glb", Shader.FromFile("anisotropy.hlsl"));
         box = Model.FromMesh(Mesh.GenerateCube(Vec3.One * 0.1f), new Material(Shader.FromFile("pbrShader.hlsl")));
         box.Visuals[0].Material.SetTexture("normal", Tex.FromFile("metal_grid_26_17_normal.jpg"));
         

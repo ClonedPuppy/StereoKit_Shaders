@@ -1,4 +1,4 @@
-#include "stereokit.hlsli"
+#include "shaderFunctions.hlsli"
 
 //--name = anisotropy
 //--color:color           = 1,1,1,1
@@ -18,7 +18,7 @@ SamplerState normal_s    : register(s3);
 struct vsIn {
 	float4 pos			: SV_Position;
 	float3 norm			: NORMAL0;
-	//float4 tangent		: TANGENT;
+	float4 tangent		: TANGENT;
 	float2 uv			: TEXCOORD0;
 	float4 color		: COLOR0;
 };
@@ -37,22 +37,6 @@ struct psIn {
 	uint   view_id		: SV_RenderTargetArrayIndex;
 };
 
-// This function calculates the world space tangent vector for a given vertex in object space
-float3 CalculateWorldTangent(float2 uv, float3 vertexPos, float3 vertexNormal)
-{
-	// Calculate the partial derivative of the texture coordinates with respect to the screen coordinates
-	float2 duv = ddx(uv);
-	float2 dvv = ddy(uv);
-
-	// Calculate the tangent vector using the partial derivatives, vertex position, and normal vector
-	float3 T = (duv.x * vertexPos - duv.y * normalize(vertexNormal)) / (duv.x * dvv.y - duv.y * dvv.x);
-
-	// Normalize the tangent vector
-	T = normalize(T);
-
-	// Transform the tangent vector from object space to world space
-	return T;
-}
 
 psIn vs(vsIn input, uint id : SV_InstanceID) 
 	{
@@ -80,9 +64,10 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	
 	o.color = input.color * sk_inst[id].color * color;
 	
-	float3 tangent = CalculateWorldTangent(input.uv, input.pos.xyz, input.norm);
+	//float3 tang = CalculateWorldTangent(input.uv, input.pos.xyz, input.norm);
 
-	//o.worldTangent = mul(tangent, sk_inst[id].world).xyz;
+	// hmm, calculate this from frag shader instead!
+	o.worldTangent = normalize(mul(input.tangent, sk_inst[id].world)).xyz;
 	
 	//o.worldBinormal = cross(o.worldNormal, o.worldTangent) * -1;
 	
@@ -167,5 +152,6 @@ float4 ps(psIn input) : SV_TARGET
 	//surfaceColor *= reflectionColor;
                 
 	//return float4(surfaceColor, 1);
-	return float4(1, 1, 1, 1);
+	return float4(input.worldTangent, 1);
+
 }
