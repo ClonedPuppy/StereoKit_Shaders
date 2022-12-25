@@ -3,7 +3,7 @@
 
 //--name = sk/default
 
-//--color:color = 0.3,0.3,0.3,1
+//--color:color = 1,1,1,1
 //--tex_scale   = 1
 //--diffuse     = white
 //--normal    = flat
