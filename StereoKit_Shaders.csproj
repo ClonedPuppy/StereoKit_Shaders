@@ -44,11 +44,21 @@
 	  <None Remove="Assets\metal_grid_26_17_normal.jpg" />
 	  <None Remove="Assets\normalMap.png" />
 	  <None Remove="Assets\normalTest.hlsl" />
+	  <None Remove="Assets\old_depot.hdr" />
+	  <None Remove="Assets\panel_normal.png" />
 	  <None Remove="Assets\pbrShader.hlsl" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Diffuse.jpg" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Metalness.jpg" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_MR.jpg" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpeg" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpg" />
+	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_ReflRoughness.jpg" />
 	  <None Remove="Assets\Room.glb" />
 	  <None Remove="Assets\shaderFunctions.hlsli" />
+	  <None Remove="Assets\standardShader.hlsl" />
 	  <None Remove="Assets\stereokit_pbr.hlsli" />
 	  <None Remove="Assets\sunrise.hdr" />
+	  <None Remove="Assets\vestibule_1k.hdr" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -64,10 +74,34 @@
 	  <Content Include="Assets\normalMap.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	  <Content Include="Assets\old_depot.hdr">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\panel_normal.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Diffuse.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Metalness.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_MR.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_ReflRoughness.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	  <Content Include="Assets\Room.glb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\sunrise.hdr">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Assets\vestibule_1k.hdr">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
@@ -81,9 +115,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <SKShader Include="Assets\stereokit_pbr.hlsli">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </SKShader>
 	  <SKShader Include="Assets\shaderFunctions.hlsli">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </SKShader>
@@ -111,6 +142,10 @@
 
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Assets\anisotropy.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\standardShader.hlsl" />
 	</ItemGroup>
 
 </Project>

@@ -67,10 +67,10 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	float3 tex_norm = normal.Sample(normal_s, input.uv).xyz * 2 - 1;
 	float3 p_norm = normalize(input.norm);
 	
-	float3 tang = CotangentFrame(p_norm, o.view_dir, input.uv, tex_norm, 0);
+	//float3 tang = CotangentFrame(p_norm, o.view_dir, input.uv, tex_norm, 0);
 
 	// hmm, calculate this from frag shader instead!
-	o.worldTangent = normalize(mul(input.tangent, sk_inst[id].world)).xyz;
+	//o.worldTangent = normalize(mul(input.tangent, sk_inst[id].world)).xyz;
 	
 	//o.worldBinormal = cross(o.worldNormal, o.worldTangent) * -1;
 	
@@ -131,10 +131,53 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 
 float4 ps(psIn input) : SV_TARGET
 	{
-	//float3 worldNormalAtPixel = WorldNormalFromNormalMap(_BumpMap, i.uv, i.worldTangent, i.worldBinormal, i.worldNormal);
+	//// Normal texture sampling, the 2 - 1 brings it into the proper range for lighting calculations
+	//float3 tex_norm = normal.Sample(normal_s, input.uv).xyz * 2 - 1;
+	//// Normalize model normals
+	//float3 p_norm = normalize(input.normal);
+	//// Transform surface normals from tangent space to world space, and normalize
+	//p_norm = normalize(tex_norm);
+	
+	
+	//float3 worldNormalAtPixel = normalize(mul(tex_norm, CotangentFrame(p_norm, input.view_dir, input.uv, tex_norm, 0)));
                 
 	//half attenuation = 1;
                 
+	
+//	// Inputs
+//	float3 worldNormal; // World space normal
+//	float3 worldPos; // World space position
+//	float3 viewDir; // View direction vector
+//	float3 lightDir; // Light direction vector
+//	float roughness; // Material roughness
+//	float anisotropy; // Material anisotropy
+//	float specular; // Material specular reflectance
+
+//// Outputs
+//	float3 color;
+
+//// Calculate the halfway vector
+//	float3 halfwayVec = normalize(lightDir + viewDir);
+
+//// Calculate the anisotropic tangent and bitangent
+//	float3 anisoTangent = anisotropy * cross(worldNormal, halfwayVec);
+//	float3 anisoBitangent = cross(anisoTangent, worldNormal);
+
+//// Calculate the anisotropic normal
+//	float3 anisoNormal = normalize(worldNormal + anisoTangent + anisoBitangent);
+
+//// Calculate the diffuse term
+//	float NdotL = max(dot(worldNormal, lightDir), 0.0);
+//	float3 diffuse = specular * NdotL;
+
+//// Calculate the specular term
+//	float3 specularTerm = specular * DistributionGGX(anisoNormal, halfwayVec, roughness) * GeometrySchlickGGX(dot(anisoNormal, viewDir), roughness);
+
+//// Calculate the final color
+//	color = diffuse + specularTerm;
+
+	
+	
 	//float3 lightDir = _WorldSpaceLightPos0.xyz;
 	//float3 lightColor = _LightColor0.rgb;
 	//float3 diffuseColor = DiffuseLambert(worldNormalAtPixel, lightDir, attenuation, lightColor, _DiffuseFactor);
@@ -155,6 +198,6 @@ float4 ps(psIn input) : SV_TARGET
 	//surfaceColor *= reflectionColor;
                 
 	//return float4(surfaceColor, 1);
-	return float4(input.worldTangent, 1);
+	return float4(float3(1, 1, 1), 1);
 
 }

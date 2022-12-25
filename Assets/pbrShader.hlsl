@@ -1,5 +1,6 @@
 #include <stereokit.hlsli>
 #include <stereokit_pbr.hlsli>
+#include "shaderFunctions.hlsli"
 
 //--name = pbrShader
 //--color:color           = 1,1,1,1
@@ -65,26 +66,15 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	return o;
 }
 
-float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
-{
-    // calculate the binormal using the cross product
-	float3 B = cross(N, T);
-
-    // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
-	N = normalize(N + strength * B);
-
-    // construct the matrix
-	float3x3 TBN = float3x3(T, B, N);
-	return TBN;
-}
-
-
-
 float4 ps(psIn input) : SV_TARGET
 {
 	float4 albedo = diffuse.Sample(diffuse_s, input.uv) * input.color;
 	float3 emissive = emission.Sample(emission_s, input.uv).rgb * emission_factor.rgb;
 	float2 metal_rough = metal.Sample(metal_s, input.uv).gb; // rough is g, b is metallic
+	float ao = occlusion.Sample(occlusion_s, input.uv).r; // occlusion is sometimes part of the metal tex, uses r channel
+
+	float metallic_final = metal_rough.y * metallic;
+	float rough_final = metal_rough.x * roughness;
 	
 	// Normal texture sampling, the 2 - 1 brings it into the proper range for lighting calculations
 	float3 tex_norm = normal.Sample(normal_s, input.uv).xyz * 2 - 1;
@@ -93,14 +83,11 @@ float4 ps(psIn input) : SV_TARGET
 	// Transform surface normals from tangent space to world space, and normalize
 	tex_norm = mul(tex_norm, CotangentFrame(p_norm, input.view_dir, input.uv, tex_norm, 0));
 	p_norm = normalize(tex_norm);
+
+	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, tex_norm);
 	
-	float ao = occlusion.Sample(occlusion_s, input.uv).r; // occlusion is sometimes part of the metal tex, uses r channel
-
-	float metallic_final = metal_rough.y * metallic;
-	float rough_final = metal_rough.x * roughness;
-
-	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, p_norm);
-	//float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, input.normal);
+	//float4 color = CookTorranceBRDF(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, input.normal);
+	
 	color.rgb += emissive;
 	return float4(color.rgb, 1);
 }

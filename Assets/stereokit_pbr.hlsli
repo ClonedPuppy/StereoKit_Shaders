@@ -61,5 +61,4 @@ float4 skpbr_shade(float4 albedo, float3 irradiance, float3 ao, float metal, flo
 }
 
 ///////////////////////////////////////////
-
 #endif

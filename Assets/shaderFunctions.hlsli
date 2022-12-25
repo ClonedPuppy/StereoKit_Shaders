@@ -1,6 +1,5 @@
 #include <stereokit.hlsli>
 
-
 // Useful functions borrowed from Unity and others
 
 float4 _Time() {
@@ -26,27 +25,27 @@ float Posterize(float numberOfBands, float target)
 	return round(target * numberOfBands) / numberOfBands;
 }
 
-// This function calculates the world space tangent vector for a given vertex in object space
-float3 CalculateWorldTangent(float2 uv, float3 vertexPos, float3 vertexNormal)
-{
-	// Calculate the partial derivative of the texture coordinates with respect to the screen coordinates
-	float2 duv = ddx(uv);
-	float2 dvv = ddy(uv);
+//// This function calculates the world space tangent vector for a given vertex in object space
+//float3 CalculateWorldTangent(float2 uv, float3 vertexPos, float3 vertexNormal)
+//{
+//	// Calculate the partial derivative of the texture coordinates with respect to the screen coordinates
+//	float2 duv = ddx(uv);
+//	float2 dvv = ddy(uv);
 
-	// Calculate the tangent vector using the partial derivatives, vertex position, and normal vector
-	float3 T = (duv.x * vertexPos - duv.y * normalize(vertexNormal)) / (duv.x * dvv.y - duv.y * dvv.x);
+//	// Calculate the tangent vector using the partial derivatives, vertex position, and normal vector
+//	float3 T = (duv.x * vertexPos - duv.y * normalize(vertexNormal)) / (duv.x * dvv.y - duv.y * dvv.x);
 
-	return normalize(T);
-}
+//	return normalize(T);
+//}
 
 float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
 {
     // calculate the binormal using the cross product
 	float3 B = cross(N, T);
-
+ 
     // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
 	N = normalize(N + strength * B);
-
+ 
     // construct the matrix
 	float3x3 TBN = float3x3(T, B, N);
 	return TBN;
@@ -86,6 +85,43 @@ float4 debugWorldSpace(float3 _worldSpace)
 
 
 // Fragment shaders
+
+float3 fresnel_schlick_rough(float ndotv, float3 F0, float roughness)
+{
+	return F0 + (max(1 - roughness, F0) - F0) * pow(1.0 - ndotv, 5.0);
+}
+
+float4 CookTorranceBRDF(float4 albedo, float3 irradiance, float ao, float metal, float rough, float3 view_dir, float3 surface_normal)
+{
+	float3 view = normalize(view_dir);
+	float3 reflection = reflect(-view, surface_normal);
+	float ndotv = max(0, dot(surface_normal, view));
+
+// Microfacet distribution
+	float alpha = rough * rough;
+	float alpha2 = alpha * alpha;
+	float D = alpha2 / (3.14159 * pow(ndotv * (alpha2 - 1) + 1, 2));
+	
+// Geometric term
+	float G1 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * ndotv * ndotv));
+	float G2 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * dot(reflection, surface_normal) * dot(reflection, surface_normal)));
+	float G = G1 * G2;
+
+// Fresnel term
+	float3 F0 = lerp(0.04, albedo.rgb, metal);
+	float3 F = fresnel_schlick_rough(ndotv, F0, rough);
+
+// Specular
+	float3 specular = F * G * D / (4 * ndotv * max(dot(view, surface_normal), 0));
+
+// Diffuse
+	float3 kD = 1 - F;
+	kD *= 1 - metal;
+	float3 diffuse = albedo.rgb * irradiance * ao;
+
+	return float4(float3(kD * diffuse + specular * ao), albedo.a);
+}
+
 
 float fog(float3 worldPos, float3 camPos, float2 radius)
 {
