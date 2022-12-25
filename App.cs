@@ -23,6 +23,8 @@ public class App
     Matrix floorTransform = Matrix.TS(new Vec3(0, -1.5f, 0), new Vec3(30, 0.1f, 30));
     Material floorMaterial;
 
+    Vec3 lightDirection;
+
     public void Init()
     {
         // Create assets used by the app
@@ -43,7 +45,10 @@ public class App
         boxPose = new Pose(0.2f, -0.25f, -0.4f, Quat.FromAngles(0, 0, 0));
 
         Renderer.SkyTex = Tex.FromCubemapEquirectangular("vestibule_1k.hdr", out SphericalHarmonics lighting);
+        // Brightness(10f);
         Renderer.SkyLight = lighting;
+
+        lightDirection = Renderer.SkyLight.DominantLightDirection;
         //Renderer.EnableSky = false;
     }
 
@@ -64,7 +69,9 @@ public class App
         }
         else
         {
-           rotate -= 0.5f;
+           //rotate -= 0.5f;
         }
+
+        Lines.Add(new Ray(Vec3.One, lightDirection), 1, Color32.White, 0.01f);
     }
 }
