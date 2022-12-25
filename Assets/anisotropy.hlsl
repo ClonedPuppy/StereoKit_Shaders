@@ -18,7 +18,7 @@ SamplerState normal_s    : register(s3);
 struct vsIn {
 	float4 pos			: SV_Position;
 	float3 norm			: NORMAL0;
-	float4 tangent		: TANGENT;
+	//float4 tangent		: TANGENT;
 	float2 uv			: TEXCOORD0;
 	float4 color		: COLOR0;
 };
@@ -64,7 +64,10 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	
 	o.color = input.color * sk_inst[id].color * color;
 	
-	//float3 tang = CalculateWorldTangent(input.uv, input.pos.xyz, input.norm);
+	float3 tex_norm = normal.Sample(normal_s, input.uv).xyz * 2 - 1;
+	float3 p_norm = normalize(input.norm);
+	
+	float3 tang = CotangentFrame(p_norm, o.view_dir, input.uv, tex_norm, 0);
 
 	// hmm, calculate this from frag shader instead!
 	o.worldTangent = normalize(mul(input.tangent, sk_inst[id].world)).xyz;

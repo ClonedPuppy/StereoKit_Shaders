@@ -39,6 +39,18 @@ float3 CalculateWorldTangent(float2 uv, float3 vertexPos, float3 vertexNormal)
 	return normalize(T);
 }
 
+float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
+{
+    // calculate the binormal using the cross product
+	float3 B = cross(N, T);
+
+    // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
+	N = normalize(N + strength * B);
+
+    // construct the matrix
+	float3x3 TBN = float3x3(T, B, N);
+	return TBN;
+}
 
 
 // Vertex shaders
