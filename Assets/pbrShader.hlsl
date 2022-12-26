@@ -81,7 +81,7 @@ float4 ps(psIn input) : SV_TARGET
 	// Normalize model normals
 	float3 p_norm = normalize(input.normal);
 	// Transform surface normals from tangent space to world space, and normalize
-	tex_norm = mul(p_norm, CotangentFrame(tex_norm, p_norm, input.view_dir, input.uv, 0));
+	tex_norm = mul(p_norm, CotangentFrame(-p_norm , input.view_dir,tex_norm));
 	p_norm = normalize(tex_norm);
 
 	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, p_norm);
