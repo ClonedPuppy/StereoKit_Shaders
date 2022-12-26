@@ -25,11 +25,11 @@ public class App
 
     Vec3 lightDirection;
 
-    public void Init()
+    public void Init() 
     {
         // Create assets used by the app
-        bust = Model.FromFile("marble_bust.glb", Shader.FromFile("standardShader.hlsl"));
-        //bust.Visuals[0].Material.SetTexture("metal", Tex.FromFile("Random_Nicey_Neon_Green_Organic_MR.jpg"));
+        bust = Model.FromFile("marble_bust.glb", Shader.FromFile("pbrShader.hlsl"));
+        bust.Visuals[0].Material.SetTexture("metal", Tex.FromFile("Random_Nicey_Neon_Green_Organic_MR.jpg"));
         //bust.Visuals[0].Material.SetTexture("diffuse", Tex.FromFile("Random_Nicey_Neon_Green_Organic_Diffuse.jpg"));
         bust.Visuals[0].Material.SetTexture("normal", Tex.FromFile("Random_Nicey_Neon_Green_Organic_Normal.jpg"));
 
@@ -63,6 +63,7 @@ public class App
         box.Draw(boxPose.ToMatrix());
 
         bust.Visuals[0].LocalTransform = Matrix.R(Quat.FromAngles(0, rotate, 0));
+        box.Visuals[0].LocalTransform = Matrix.R(Quat.FromAngles(0, rotate, 0));
 
         if (rotate == 359)
         {
@@ -70,7 +71,7 @@ public class App
         }
         else
         {
-           //rotate -= 0.5f;
+           rotate -= 0.5f;
         }
 
         Lines.Add(new Ray(Vec3.One, lightDirection), 1, Color32.White, 0.01f);

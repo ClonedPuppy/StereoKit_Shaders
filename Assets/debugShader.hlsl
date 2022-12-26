@@ -71,7 +71,7 @@ psIn vs(vsIn input, uint id : SV_InstanceID) {
 
 float4 ps(psIn input) : SV_TARGET{
 	
-	float4 result = phong(input.normal, input.view_dir, float3(5, 5, 5), float3(0.5, 0.5, 0.5), 1, float3(0.0, 0.075, 0.15), float3(1, 0, 0));
+	//float4 result = phong(input.normal, input.view_dir, float3(5, 5, 5), float3(0.5, 0.5, 0.5), 1, float3(0.0, 0.075, 0.15), float3(1, 0, 0));
 	
-	return result;
+	return float4(1, 1, 1, 1);
 }

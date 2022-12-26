@@ -38,18 +38,45 @@ float Posterize(float numberOfBands, float target)
 //	return normalize(T);
 //}
 
-float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
+//float3x3 CotangentFrame(float3 N, float3 p, float2 uv, float3 T, float strength)
+//{
+//    // calculate the binormal using the cross product
+//	float3 B = cross(N, T);
+ 
+//    // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
+//	N = normalize(N + strength * B);
+ 
+//    // construct the matrix
+//	float3x3 TBN = float3x3(T, B, N);
+//	return TBN;
+//}
+
+float3x3 CotangentFrame(float3 normalMap, float3 N, float3 p, float2 uv, float strength)
 {
-    // calculate the binormal using the cross product
-	float3 B = cross(N, T);
- 
-    // deform the normal by the additional strength parameter (0.0 - 1.0), default is 0.0
-	N = normalize(N + strength * B);
- 
+    // get dp/du and dp/dv
+	float3 dp1 = ddx(p);
+	float3 dp2 = ddy(p);
+	float2 duv1 = ddx(uv);
+	float2 duv2 = ddy(uv);
+
+    // solve the linear system
+	float3 dp2perp = cross(dp2, N);
+	float3 dp1perp = cross(N, dp1);
+	float3 T = dp2perp * duv1.x + dp1perp * duv2.x;
+	float3 B = dp2perp * duv1.y + dp1perp * duv2.y;
+
+    // get the normal map value
+	//float3 N_map = tex2D(normalMap, uv).rgb;
+
+    // deform the normal by the normal map and the additional strength parameter (0.0 - 1.0), default is 0.0
+	N = normalize(N * normalMap * B);
+
     // construct the matrix
 	float3x3 TBN = float3x3(T, B, N);
 	return TBN;
 }
+
+
 
 
 // Vertex shaders
@@ -86,41 +113,41 @@ float4 debugWorldSpace(float3 _worldSpace)
 
 // Fragment shaders
 
-float3 fresnel_schlick_rough(float ndotv, float3 F0, float roughness)
-{
-	return F0 + (max(1 - roughness, F0) - F0) * pow(1.0 - ndotv, 5.0);
-}
+//float3 fresnel_schlick_rough(float ndotv, float3 F0, float roughness)
+//{
+//	return F0 + (max(1 - roughness, F0) - F0) * pow(1.0 - ndotv, 5.0);
+//}
 
-float4 CookTorranceBRDF(float4 albedo, float3 irradiance, float ao, float metal, float rough, float3 view_dir, float3 surface_normal)
-{
-	float3 view = normalize(view_dir);
-	float3 reflection = reflect(-view, surface_normal);
-	float ndotv = max(0, dot(surface_normal, view));
+//float4 CookTorranceBRDF(float4 albedo, float3 irradiance, float ao, float metal, float rough, float3 view_dir, float3 surface_normal)
+//{
+//	float3 view = normalize(view_dir);
+//	float3 reflection = reflect(-view, surface_normal);
+//	float ndotv = max(0, dot(surface_normal, view));
 
-// Microfacet distribution
-	float alpha = rough * rough;
-	float alpha2 = alpha * alpha;
-	float D = alpha2 / (3.14159 * pow(ndotv * (alpha2 - 1) + 1, 2));
+//// Microfacet distribution
+//	float alpha = rough * rough;
+//	float alpha2 = alpha * alpha;
+//	float D = alpha2 / (3.14159 * pow(ndotv * (alpha2 - 1) + 1, 2));
 	
-// Geometric term
-	float G1 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * ndotv * ndotv));
-	float G2 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * dot(reflection, surface_normal) * dot(reflection, surface_normal)));
-	float G = G1 * G2;
+//// Geometric term
+//	float G1 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * ndotv * ndotv));
+//	float G2 = 2 * ndotv / (ndotv + sqrt(alpha2 + (1 - alpha2) * dot(reflection, surface_normal) * dot(reflection, surface_normal)));
+//	float G = G1 * G2;
 
-// Fresnel term
-	float3 F0 = lerp(0.04, albedo.rgb, metal);
-	float3 F = fresnel_schlick_rough(ndotv, F0, rough);
+//// Fresnel term
+//	float3 F0 = lerp(0.04, albedo.rgb, metal);
+//	float3 F = fresnel_schlick_rough(ndotv, F0, rough);
 
-// Specular
-	float3 specular = F * G * D / (4 * ndotv * max(dot(view, surface_normal), 0));
+//// Specular
+//	float3 specular = F * G * D / (4 * ndotv * max(dot(view, surface_normal), 0));
 
-// Diffuse
-	float3 kD = 1 - F;
-	kD *= 1 - metal;
-	float3 diffuse = albedo.rgb * irradiance * ao;
+//// Diffuse
+//	float3 kD = 1 - F;
+//	kD *= 1 - metal;
+//	float3 diffuse = albedo.rgb * irradiance * ao;
 
-	return float4(float3(kD * diffuse + specular * ao), albedo.a);
-}
+//	return float4(float3(kD * diffuse + specular * ao), albedo.a);
+//}
 
 
 float fog(float3 worldPos, float3 camPos, float2 radius)

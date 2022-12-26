@@ -28,6 +28,7 @@ struct psIn
 	float3 normal	: NORMAL0;
 	float2 uv		: TEXCOORD0;
 	float4 color	: COLOR0;
+	float3 irradiance : COLOR1;
 	float3 world	: TEXCOORD1;
 	float3 view_dir : TEXCOORD2;
 	uint  view_id	: SV_RenderTargetArrayIndex;
@@ -46,6 +47,7 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	
 	o.uv = input.uv * tex_scale;
 	o.color = color * input.col * sk_inst[id].color;
+
 	o.view_dir = sk_camera_pos[o.view_id].xyz - world;
 	
 	return o;
@@ -58,10 +60,15 @@ float4 ps(psIn input) : SV_TARGET
 	// Normalize model normals
 	float3 p_norm = normalize(input.normal);
 	// Transform surface normals from tangent space to world space, and normalize
-	tex_norm = mul(tex_norm, CotangentFrame(p_norm, input.view_dir, input.uv, tex_norm, 0));
+	tex_norm = mul(p_norm, CotangentFrame(p_norm, input.view_dir, input.uv, tex_norm, 0));
 	p_norm = normalize(tex_norm);
 	
-	input.color.rgb *= Lighting(p_norm);
-	float4 col = diffuse.Sample(diffuse_s, input.uv);
-	return col * input.color;
+	input.irradiance *= Lighting(p_norm);
+	
+	//float3 light = input.irradiance;
+	
+	//light *= Lighting(p_norm);
+	
+	float4 col = diffuse.Sample(diffuse_s, input.uv) * float4(Lighting(p_norm), 1);
+	return float4(float3(col.rgb * input.color.rgb), 1);
 }

@@ -148,4 +148,36 @@
 	  <UpToDateCheckInput Remove="Assets\standardShader.hlsl" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <SKShader Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\anisotropy.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\anisotropy.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\anisotropy.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SKShader Remove="Assets\debugShader.hlsl" />
+	</ItemGroup>
+
 </Project>
