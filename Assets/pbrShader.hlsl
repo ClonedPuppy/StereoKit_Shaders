@@ -5,7 +5,7 @@
 //--name = pbrShader
 //--color:color           = 1,1,1,1
 //--emission_factor:color = 0,0,0,0
-//--metallic              = 1
+//--metallic              = 0
 //--roughness             = 1
 //--tex_scale             = 1
 float4 color;
@@ -81,12 +81,10 @@ float4 ps(psIn input) : SV_TARGET
 	// Normalize model normals
 	float3 p_norm = normalize(input.normal);
 	// Transform surface normals from tangent space to world space, and normalize
-	tex_norm = mul(p_norm, CotangentFrame(-p_norm , input.view_dir,tex_norm));
-	p_norm = normalize(tex_norm);
-
-	float4 color = skpbr_shade(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, p_norm);
+	tex_norm = mul(tex_norm, CotangentFrame(p_norm, input.view_dir, tex_norm));
+	p_norm = -normalize(tex_norm);
 	
-	//float4 color = CookTorranceBRDF(albedo, input.irradiance, ao, metallic_final, rough_final, input.view_dir, input.normal);
+	float4 color = skpbr_shade(albedo, float4(Lighting(-p_norm), 1), ao, metallic_final, rough_final, input.view_dir, p_norm);
 	
 	color.rgb += emissive;
 	return float4(color.rgb, 1);

@@ -17,21 +17,21 @@ SamplerState normal_s : register(s1);
 
 struct vsIn
 {
-	float4 pos	: SV_Position;
+	float4 pos : SV_Position;
 	float3 norm : NORMAL0;
-	float2 uv	: TEXCOORD0;
-	float4 col	: COLOR0;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR0;
 };
 struct psIn
 {
-	float4 pos		: SV_Position;
-	float3 normal	: NORMAL0;
-	float2 uv		: TEXCOORD0;
-	float4 color	: COLOR0;
-	float3 irradiance : COLOR1;
-	float3 world	: TEXCOORD1;
+	float4 pos : SV_Position;
+	float3 normal : NORMAL0;
+	float2 uv : TEXCOORD0;
+	float4 color : COLOR0;
+	//float3 irradiance : COLOR1;
+	float3 world : TEXCOORD1;
 	float3 view_dir : TEXCOORD2;
-	uint  view_id	: SV_RenderTargetArrayIndex;
+	uint view_id : SV_RenderTargetArrayIndex;
 };
 
 psIn vs(vsIn input, uint id : SV_InstanceID)
@@ -40,16 +40,14 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	o.view_id = id % sk_view_count;
 	id = id / sk_view_count;
 
-	float4 world = mul(input.pos, sk_inst[id].world);
-	o.pos = mul(world, sk_viewproj[o.view_id]);
+	o.world = mul(float4(input.pos.xyz, 1), sk_inst[id].world).xyz;
+	o.pos = mul(float4(o.world, 1), sk_viewproj[o.view_id]);
 
 	o.normal = normalize(mul(float4(input.norm, 0), sk_inst[id].world).xyz);
-	
 	o.uv = input.uv * tex_scale;
-	o.color = color * input.col * sk_inst[id].color;
-
-	o.view_dir = sk_camera_pos[o.view_id].xyz - world.xyz;
-	
+	o.color = input.color * sk_inst[id].color * color;
+	//o.irradiance = Lighting(o.normal);
+	o.view_dir = sk_camera_pos[o.view_id].xyz - o.world;
 	return o;
 }
 
@@ -63,11 +61,7 @@ float4 ps(psIn input) : SV_TARGET
 	tex_norm = mul(p_norm, CotangentFrame(p_norm, input.view_dir, tex_norm));
 	p_norm = normalize(tex_norm);
 	
-	input.irradiance *= Lighting(p_norm);
-	
-	//float3 light = input.irradiance;
-	
-	//light *= Lighting(p_norm);
+	//input.irradiance *= Lighting(p_norm);
 	
 	float4 col = diffuse.Sample(diffuse_s, input.uv) * float4(Lighting(p_norm), 1);
 	return float4(float3(col.rgb * input.color.rgb), 1);
