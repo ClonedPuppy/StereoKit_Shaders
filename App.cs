@@ -29,19 +29,15 @@ public class App
     {
         // Create assets used by the app
         bust = Model.FromFile("marble_bust.glb", Shader.FromFile("pbrShader.hlsl"));
-        bust.Visuals[0].Material.SetTexture("metal", Tex.FromFile("Random_Nicey_Neon_Green_Organic_MR.jpg"));
-        //bust.Visuals[0].Material.SetTexture("diffuse", Tex.FromFile("Random_Nicey_Neon_Green_Organic_Diffuse.jpg"));
-        bust.Visuals[0].Material.SetTexture("normal", Tex.FromFile("Random_Nicey_Neon_Green_Organic_Normal.jpg"));
+        bust.Visuals[0].Material.SetTexture("metal", Tex.FromFile("Green_Organic_MR.jpg"));
+        bust.Visuals[0].Material.SetTexture("diffuse", Tex.FromFile("Green_Organic_Diffuse.jpg"));
+        bust.Visuals[0].Material.SetTexture("normal", Tex.FromFile("Green_Organic_Normal.jpg"));
 
         box = bust.Copy();
         box.Visuals[0].Material = new Material(Shader.Default);
-        //Model.FromMesh(Mesh.GenerateCube(Vec3.One * 0.1f), new Material(Shader.FromFile("standardShader.hlsl")));
 
         floorMaterial = new Material(Shader.FromFile("floor.hlsl"));
         floorMaterial.Transparency = Transparency.Blend;
-
-        //bust.Visuals[0].Material.Transparency = Transparency.Blend;
-        //bust.Visuals[0].Material.FaceCull = Cull.Front;
 
         bustPose = new Pose(0, -0.25f, -0.4f, Quat.FromAngles(0, rotate, 0));
         boxPose = new Pose(0.4f, -0.25f, -0.4f, Quat.FromAngles(0, rotate, 0));

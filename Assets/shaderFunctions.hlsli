@@ -193,7 +193,7 @@ float4 gradient(float2 _uv, float3 _topColor, float3 _bottomColor)
 float4 gradientCustom(float2 _uv, float _minValue, float _maxValue, float4 _bottomColor, float4 _topColor)
 {
 	float t = smoothstep(_minValue, _maxValue, _uv.y);
-	float3 blend = lerp(_bottomColor, _topColor, t);
+	float3 blend = lerp(_bottomColor.rgb, _topColor.rgb, t);
 	return float4(blend, 1);
 }
 

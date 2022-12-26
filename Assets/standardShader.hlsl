@@ -48,7 +48,7 @@ psIn vs(vsIn input, uint id : SV_InstanceID)
 	o.uv = input.uv * tex_scale;
 	o.color = color * input.col * sk_inst[id].color;
 
-	o.view_dir = sk_camera_pos[o.view_id].xyz - world;
+	o.view_dir = sk_camera_pos[o.view_id].xyz - world.xyz;
 	
 	return o;
 }

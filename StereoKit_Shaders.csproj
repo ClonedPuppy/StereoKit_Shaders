@@ -37,23 +37,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\anisotropy.hlsl" />
-	  <None Remove="Assets\debugShader.hlsl" />
+	  <None Remove="Assets\Green_Organic_Diffuse.jpg" />
+	  <None Remove="Assets\Green_Organic_MR.jpg" />
+	  <None Remove="Assets\Green_Organic_Normal.jpg" />
 	  <None Remove="Assets\marble_bust.glb" />
-	  <None Remove="Assets\marble_bust_tangents.glb" />
-	  <None Remove="Assets\metal_grid_26_17_normal.jpg" />
-	  <None Remove="Assets\normalMap.png" />
-	  <None Remove="Assets\normalTest.hlsl" />
+	  <None Remove="Assets\metal_grid_normal.jpg" />
 	  <None Remove="Assets\old_depot.hdr" />
-	  <None Remove="Assets\panel_normal.png" />
 	  <None Remove="Assets\pbrShader.hlsl" />
-	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Diffuse.jpg" />
-	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Metalness.jpg" />
-	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_MR.jpg" />
 	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpeg" />
-	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpg" />
-	  <None Remove="Assets\Random_Nicey_Neon_Green_Organic_ReflRoughness.jpg" />
-	  <None Remove="Assets\Room.glb" />
 	  <None Remove="Assets\shaderFunctions.hlsli" />
 	  <None Remove="Assets\standardShader.hlsl" />
 	  <None Remove="Assets\stereokit_pbr.hlsli" />
@@ -65,37 +56,19 @@
 	  <Content Include="Assets\marble_bust.glb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Assets\marble_bust_tangents.glb">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\metal_grid_26_17_normal.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\normalMap.png">
+	  <Content Include="Assets\metal_grid_normal.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\old_depot.hdr">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Assets\panel_normal.png">
+	  <Content Include="Assets\Green_Organic_Diffuse.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Diffuse.jpg">
+	  <Content Include="Assets\Green_Organic_MR.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Metalness.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_MR.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_Normal.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\Random_Nicey_Neon_Green_Organic_ReflRoughness.jpg">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Assets\Room.glb">
+	  <Content Include="Assets\Green_Organic_Normal.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Assets\sunrise.hdr">
@@ -127,57 +100,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Assets\debugShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Assets\normalTest.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <UpToDateCheckInput Remove="Assets\pbrShader.hlsl" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionStereoKit_ShadersHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Assets\anisotropy.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <UpToDateCheckInput Remove="Assets\standardShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\debugShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\anisotropy.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\anisotropy.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\debugShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\debugShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\anisotropy.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\debugShader.hlsl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <SKShader Remove="Assets\debugShader.hlsl" />
 	</ItemGroup>
 
 </Project>
