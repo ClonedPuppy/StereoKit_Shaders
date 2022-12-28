@@ -38,6 +38,7 @@ public class App
         //bust02.Visuals[0].Material.SetTexture("diffuse", Tex.FromFile("Green_Organic_Diffuse.jpg"));
         bust02.Visuals[0].Material.SetTexture("metal", Tex.FromFile("Green_Organic_MR.jpg"));
         //bust02.Visuals[0].Material.SetTexture("normal", Tex.FromFile("Green_Organic_Normal.jpg"));
+        bust02.Visuals[0].Material.SetFloat("metallic", 1);
 
         floorMaterial = new Material(Shader.FromFile("floor.hlsl"));
         floorMaterial.Transparency = Transparency.Blend;
