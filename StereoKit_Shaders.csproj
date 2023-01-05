@@ -37,6 +37,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="AssetSource\**" />
+	  <Compile Remove="AssetSource\**" />
+	  <EmbeddedResource Remove="AssetSource\**" />
+	  <MauiCss Remove="AssetSource\**" />
+	  <MauiXaml Remove="AssetSource\**" />
+	  <None Remove="AssetSource\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Assets\Green_Organic_Diffuse.jpg" />
 	  <None Remove="Assets\Green_Organic_MR.jpg" />
 	  <None Remove="Assets\Green_Organic_Normal.jpg" />
